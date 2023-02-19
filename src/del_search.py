@@ -49,8 +49,8 @@ class DelSearch:
                     distance = initpos_2 - initpos_1
                 if distance != 0 and distance < 800:
                     if last_soft in mapped_2 and first_soft_2 in mapped:
-                        prompt = f'The soft cliped regions in position ' \
-                                 f'{initpos_1} ----- {initpos_2} could be a deletion\n'
+                        prompt = f'There is a soft cliped region between' \
+                                 f'{initpos_1} ----- {initpos_2} that may be a deletion\n'
                         if prompt not in self.text:
                             self.text += prompt
 
