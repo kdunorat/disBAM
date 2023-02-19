@@ -10,8 +10,8 @@ class DelSearch:
 
     def _get_depth(self):
         """Obtém apenas as regiões de softclip com profundidade maior ou igual a 10"""
-        depth_range = self.df['fpos'].value_counts()
-        depth_range = depth_range.where(depth_range >= 10)
+        depth_range = self.df['fmap'].value_counts()
+        depth_range = depth_range.where(depth_range >= 20)
         depth_range = depth_range.dropna()
         for key in depth_range.keys():
             self.depth_set.add(key)
@@ -43,13 +43,13 @@ class DelSearch:
                 continue
             first_soft_2, _, mapped_2 = self._get_soft_seq(row_2['cigar'], row_2['seq'])
             if first_soft_2:
-                initpos_1 = row['fpos'] - len(last_soft)
+                initpos_1 = row['fmap']
                 initpos_2 = row_2['pos']
                 if initpos_2 > initpos_1:
                     distance = initpos_2 - initpos_1
                 if distance != 0 and distance < 800:
                     if last_soft in mapped_2 and first_soft_2 in mapped:
-                        prompt = f'There is a soft cliped region between' \
+                        prompt = f'There is a soft cliped region between: ' \
                                  f'{initpos_1} ----- {initpos_2} that may be a deletion\n'
                         if prompt not in self.text:
                             self.text += prompt
@@ -64,7 +64,7 @@ class DelSearch:
         self._get_depth()
         df_dict = self.df.to_dict('records')
         for row in df_dict:
-            if row['fpos'] not in self.depth_set:
+            if row['fmap'] not in self.depth_set:
                 continue
             _, last_soft, mapped = self._get_soft_seq(row['cigar'], row['seq'])
             if last_soft:

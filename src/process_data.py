@@ -1,6 +1,7 @@
 import subprocess
 import pandas as pd
 import os
+import re
 
 
 def create_data(filename):
@@ -19,14 +20,10 @@ def create_data(filename):
     for line in lines:
         fields = line.strip().split('\t')
         row = {
-            'qname': fields[0],
-            'flag': int(fields[1]),
-            'rname': fields[2],
             'pos': int(fields[3]),
-            'fpos': int(fields[3]) + len(fields[9]),
+            'fmap': get_fmap(fields[5], int(fields[3])),
             'cigar': fields[5],
-            'seq': fields[9],
-            'qual': fields[10],
+            'seq': fields[9]
         }
         data.append(row)
 
@@ -48,6 +45,18 @@ def soft_sam(filename):
     """Cria o arquivo soft_cliped.sam que possui apenas reads com softclip"""
     file = filename
     subprocess.call(['bash', 'input/parse.sh', file])
+
+
+def get_fmap(cigar, pos):
+    fmap = 0
+    pattern = r'(\d+)(M)'
+    soft_qt = re.findall(pattern, cigar)
+    for tupla in soft_qt:
+        fmap += int(tupla[0])
+
+    fmap = fmap + pos
+
+    return fmap
 
 
 class WrongOrMissingInput(Exception):

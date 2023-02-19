@@ -1,19 +1,20 @@
-There is a soft cliped region between11288 ----- 11378 that may be a deletion
-There is a soft cliped region between18329 ----- 18333 that may be a deletion
-There is a soft cliped region between18329 ----- 18383 that may be a deletion
-There is a soft cliped region between18329 ----- 18416 that may be a deletion
-There is a soft cliped region between18329 ----- 18899 that may be a deletion
-There is a soft cliped region between21633 ----- 21642 that may be a deletion
-There is a soft cliped region between27382 ----- 27385 that may be a deletion
-There is a soft cliped region between27382 ----- 27601 that may be a deletion
-There is a soft cliped region between27382 ----- 27761 that may be a deletion
-There is a soft cliped region between27382 ----- 27794 that may be a deletion
-There is a soft cliped region between28363 ----- 28371 that may be a deletion
-There is a soft cliped region between28363 ----- 28609 that may be a deletion
-There is a soft cliped region between28363 ----- 28615 that may be a deletion
-There is a soft cliped region between28363 ----- 28884 that may be a deletion
-There is a soft cliped region between28363 ----- 28925 that may be a deletion
-There is a soft cliped region between28881 ----- 28884 that may be a deletion
-There is a soft cliped region between28881 ----- 28925 that may be a deletion
-There is a soft cliped region between28881 ----- 29639 that may be a deletion
-There is a soft cliped region between29734 ----- 29760 that may be a deletion
+There is a soft cliped region between: 11288 ----- 11378 that may be a deletion
+There is a soft cliped region between: 21633 ----- 21642 that may be a deletion
+There is a soft cliped region between: 22577 ----- 22579 that may be a deletion
+There is a soft cliped region between: 22577 ----- 22996 that may be a deletion
+There is a soft cliped region between: 22577 ----- 23015 that may be a deletion
+There is a soft cliped region between: 22577 ----- 23145 that may be a deletion
+There is a soft cliped region between: 27382 ----- 27385 that may be a deletion
+There is a soft cliped region between: 27382 ----- 27601 that may be a deletion
+There is a soft cliped region between: 27382 ----- 27754 that may be a deletion
+There is a soft cliped region between: 27382 ----- 27761 that may be a deletion
+There is a soft cliped region between: 27382 ----- 27794 that may be a deletion
+There is a soft cliped region between: 28363 ----- 28371 that may be a deletion
+There is a soft cliped region between: 28363 ----- 28609 that may be a deletion
+There is a soft cliped region between: 28363 ----- 28615 that may be a deletion
+There is a soft cliped region between: 28363 ----- 28884 that may be a deletion
+There is a soft cliped region between: 28363 ----- 28925 that may be a deletion
+There is a soft cliped region between: 28881 ----- 28884 that may be a deletion
+There is a soft cliped region between: 28881 ----- 28925 that may be a deletion
+There is a soft cliped region between: 28881 ----- 29639 that may be a deletion
+There is a soft cliped region between: 29734 ----- 29760 that may be a deletion
