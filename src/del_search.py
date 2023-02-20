@@ -44,14 +44,14 @@ class DelSearch:
 
         return first_soft, last_soft, mapped
 
-    def _analyze_reads(self, row, last_soft, mapped, count):
+    def _analyze_reads(self, read, last_soft, mapped, count):
         """Analiza par a par em busca de provaveis deleções"""
         distance = 0
-        for row_2 in self.data[count:]:
-            first_soft_2, _, mapped_2 = self._get_soft_seq(row_2['cigar'], row_2['seq'])
+        for read_2 in self.data[count:]:
+            first_soft_2, _, mapped_2 = self._get_soft_seq(read_2['cigar'], read_2['seq'])
             if first_soft_2:
-                initpos_1 = row['fmap']
-                initpos_2 = row_2['pos']
+                initpos_1 = read['fmap']
+                initpos_2 = read_2['pos']
                 if initpos_2 > initpos_1:
                     distance = initpos_2 - initpos_1
                 if distance != 0 and distance < 180:
@@ -70,14 +70,14 @@ class DelSearch:
         """Roda o processo inteiro"""
         count = 1
         self._get_depth_mapped()
-        for row in self.data:
-            if row['fmap'] not in self.depth_mapped:
+        for read in self.data:
+            if read['fmap'] not in self.depth_mapped:
                 count += 1
                 continue
-            _, last_soft, mapped = self._get_soft_seq(row['cigar'], row['seq'])
+            _, last_soft, mapped = self._get_soft_seq(read['cigar'], read['seq'])
             if last_soft:
-                depth_soft = self._get_depth_soft(row['fmap'])
-                if row['fpos'] == depth_soft:
-                    self._analyze_reads(row, last_soft, mapped, count)
+                depth_soft = self._get_depth_soft(read['fmap'])
+                if read['fpos'] == depth_soft:
+                    self._analyze_reads(read, last_soft, mapped, count)
             count += 1
         self._create_log()
