@@ -1,4 +1,4 @@
-import re
+from process_data import get_soft_seq
 
 
 class DelSearch:
@@ -25,30 +25,11 @@ class DelSearch:
         depth_soft = depth_soft[0]
         return depth_soft
 
-    @staticmethod
-    def _get_soft_seq(cigar, seq):
-        """Gera 'strings' com a região inicial e final de softclip e também com a última região mapeada"""
-        pattern = r'(\d+)(S|M)'
-        soft_qt = re.findall(pattern, cigar)
-        first_soft, last_soft, mapped = False, False, False
-        for tupla in soft_qt:
-            if tupla[1] == 'M':
-                mapped = seq[:int(tupla[0])]
-                seq = seq[int(tupla[0]):]
-            elif tupla[1] == 'S' and mapped:
-                if int(tupla[0]) > last_soft:
-                    last_soft = seq[:int(tupla[0])]
-            else:
-                first_soft = seq[:int(tupla[0])]
-                seq = seq[int(tupla[0]):]
-
-        return first_soft, last_soft, mapped
-
     def _analyze_reads(self, read, last_soft, mapped, count):
         """Analiza par a par em busca de provaveis deleções"""
         distance = 0
         for read_2 in self.data[count:]:
-            first_soft_2, _, mapped_2 = self._get_soft_seq(read_2['cigar'], read_2['seq'])
+            first_soft_2, _, mapped_2 = get_soft_seq(read_2['cigar'], read_2['seq'])
             if first_soft_2:
                 initpos_1 = read['fmap']
                 initpos_2 = read_2['pos']
@@ -74,7 +55,7 @@ class DelSearch:
             if read['fmap'] not in self.depth_mapped:
                 count += 1
                 continue
-            _, last_soft, mapped = self._get_soft_seq(read['cigar'], read['seq'])
+            _, last_soft, mapped = get_soft_seq(read['cigar'], read['seq'])
             if last_soft:
                 depth_soft = self._get_depth_soft(read['fmap'])
                 if read['fpos'] == depth_soft:
