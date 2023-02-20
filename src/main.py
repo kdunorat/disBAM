@@ -8,9 +8,9 @@ if __name__ == '__main__':
 
     # arquivo de entrada:
     file = "L144-247-232149084-NP.sorted.bam"
-    df = create_data(file)
+    df, data = create_data(file)
 
-    run_del = DelSearch(df)
+    run_del = DelSearch(df, data)
     print('\nSearching for deletions...')
 
     run_del.run_analysis()

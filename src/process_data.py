@@ -29,10 +29,11 @@ def create_data(filename):
 
     df = pd.DataFrame(data)
     os.remove("input/soft_cliped.sam")
-    return df
+    return df, data
 
 
 def input_check(filename):
+    """Valida o input"""
     path = f'{os.getcwd()}/input/{filename}'
     exist = os.path.exists(path)
     if exist and filename.endswith('.bam'):
@@ -48,6 +49,7 @@ def soft_sam(filename):
 
 
 def get_fmap(cigar, pos):
+    """Gera a posição final da região mapeada do read"""
     fmap = 0
     pattern = r'(\d+)(M)'
     soft_qt = re.findall(pattern, cigar)

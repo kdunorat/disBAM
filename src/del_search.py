@@ -3,10 +3,12 @@ import re
 
 class DelSearch:
     """Procura prováveis deleções a partir de regiões vizinhas que sofreram softclip"""
-    def __init__(self, df):
+    def __init__(self, df, data):
         self.df = df
+        self.data = data
         self.depth_set = set()
-        self.text = ''
+        self.analyzed_regions = set()
+        self.text = 'Region\n'
 
     def _get_depth(self):
         """Obtém apenas as regiões de softclip com profundidade maior ou igual a 10"""
@@ -35,10 +37,10 @@ class DelSearch:
 
         return first_soft, last_soft, mapped
 
-    def _analyze_reads(self, df_dict, row, last_soft, mapped):
+    def _analyze_reads(self, row, last_soft, mapped, count):
         """Analiza par a par em busca de provaveis deleções"""
         distance = 0
-        for row_2 in df_dict:
+        for row_2 in self.data[count:]:
             if row == row_2:
                 continue
             first_soft_2, _, mapped_2 = self._get_soft_seq(row_2['cigar'], row_2['seq'])
@@ -49,10 +51,10 @@ class DelSearch:
                     distance = initpos_2 - initpos_1
                 if distance != 0 and distance < 800:
                     if last_soft in mapped_2 and first_soft_2 in mapped:
-                        prompt = f'There is a soft cliped region between: ' \
-                                 f'{initpos_1} ----- {initpos_2} that may be a deletion\n'
-                        if prompt not in self.text:
+                        if initpos_1 not in self.analyzed_regions:
+                            prompt = f'{initpos_1}>{initpos_2}\n'
                             self.text += prompt
+                            self.analyzed_regions.add(initpos_1)
 
     def _create_log(self):
         """Cria o arquivo final"""
@@ -61,12 +63,14 @@ class DelSearch:
 
     def run_analysis(self):
         """Roda o processo inteiro"""
+        count = 0
         self._get_depth()
-        df_dict = self.df.to_dict('records')
-        for row in df_dict:
+        for row in self.data:
             if row['fmap'] not in self.depth_set:
+                count += 1
                 continue
             _, last_soft, mapped = self._get_soft_seq(row['cigar'], row['seq'])
             if last_soft:
-                self._analyze_reads(df_dict, row, last_soft, mapped)
+                self._analyze_reads(row, last_soft, mapped, count)
+            count += 1
         self._create_log()
