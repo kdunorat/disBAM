@@ -21,6 +21,7 @@ def create_data(filename):
         fields = line.strip().split('\t')
         row = {
             'pos': int(fields[3]),
+            'fpos': int(fields[3]) + len(fields[9]),
             'fmap': get_fmap(fields[5], int(fields[3])),
             'cigar': fields[5],
             'seq': fields[9]
