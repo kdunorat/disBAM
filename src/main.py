@@ -7,7 +7,8 @@ if __name__ == '__main__':
     print('Loading Files...')
 
     # arquivo de entrada:
-    file = "L144-247-232149084-NP.sorted.bam"
+    # file = "L144-247-232149084-NP.sorted.bam"
+    file = "aln.virus.sorted_NC_045512.2.bam"
     df, data = create_data(file)
 
     run_del = DelSearch(df, data)
