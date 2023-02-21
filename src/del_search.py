@@ -56,6 +56,8 @@ class DelSearch:
 
     def _create_log(self):
         """Cria o arquivo final"""
+        if len(self.text) <= 17:
+            self.text += '----Não foram encontradas deleções extras----'
         with open('output/log.txt', 'w') as f:
             f.write(self.text)
 
