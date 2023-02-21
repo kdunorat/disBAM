@@ -44,11 +44,15 @@ class DelSearch:
                 if pos_right > fmap_left:
                     distance = pos_right - fmap_left
                 if distance != 0 and distance < 350:
-                    if last_soft in mapped_2 or first_soft_2 in mapped:
-                        if fmap_left not in self.analyzed_regions:
-                            prompt = f'{fmap_left}>{pos_right}\t{last_soft}\n'
-                            self.text += prompt
-                            self.analyzed_regions.add(fmap_left)
+                    self._match_check(mapped, first_soft_2, mapped_2,
+                                      fmap_left, pos_right, last_soft)
+
+    def _match_check(self, mapped, first_soft_2, mapped_2, fmap_left, pos_right, last_soft):
+        if last_soft in mapped_2 or first_soft_2 in mapped:
+            if fmap_left not in self.analyzed_regions:
+                prompt = f'{fmap_left}>{pos_right}\t{last_soft}\n'
+                self.text += prompt
+                self.analyzed_regions.add(fmap_left)
 
     def _create_log(self):
         """Cria o arquivo final"""
