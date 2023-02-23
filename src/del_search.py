@@ -51,7 +51,9 @@ class DelSearch:
     def _match_check(self, mapped, first_soft_2, mapped_2, fmap_left, pos_right, last_soft):
         if last_soft in mapped_2 or first_soft_2 in mapped:
             if fmap_left not in self.analyzed_regions:
-                prompt = f'{self.sample_name}\t{fmap_left}>{pos_right}\t{last_soft}'
+                soft_size = len(last_soft)
+                final_pos = pos_right - 1
+                prompt = f'{self.sample_name}\t{fmap_left}>{final_pos}\t{last_soft}\t{soft_size}'
                 self.text += prompt
                 self.analyzed_regions.add(fmap_left)
 

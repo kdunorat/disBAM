@@ -6,7 +6,7 @@ import time
 if __name__ == '__main__':
     start = time.time()
     print('Loading Files...\n')
-    header_log = 'Sample\tRegion\tSoft Clip\n'
+    header_log = 'Sample\tRegion\tSoft Clip\tSize\n'
 
     # Input files:
     absolute_path = os.path.dirname(__file__)

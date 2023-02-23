@@ -2,7 +2,6 @@ import subprocess
 import pandas as pd
 import re
 import os
-import sys
 
 
 def create_data(filename: str, absolute_path: str):
