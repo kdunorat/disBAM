@@ -1,2 +1,4 @@
-Region	Soft Clip
-----Não foram encontradas deleções extras----
+Sample	Region	Soft Clip
+L144-247-232149084-NP	----No extra deletions were found----
+009-232027169_S13_L001	----No extra deletions were found----
+ART2	----No extra deletions were found----

@@ -5,7 +5,7 @@ import re
 import sys
 
 
-def create_data(filename):
+def create_data(filename: str):
     """Cria um dataframe pandas a partir de um arquivo sam"""
     check = input_check(filename)
     if not check:
@@ -31,7 +31,7 @@ def create_data(filename):
 
     df = pd.DataFrame(data)
     os.remove("src/input/soft_cliped.sam")
-    return df, data
+    return df, data, filename.split('.')[0]
 
 
 def input_check(filename):

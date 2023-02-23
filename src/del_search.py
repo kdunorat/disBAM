@@ -3,12 +3,13 @@ from process_data import get_soft_seq
 
 class DelSearch:
     """Procura prováveis deleções a partir de regiões vizinhas que sofreram softclip"""
-    def __init__(self, df, data):
+    def __init__(self, df, data, filename):
         self.df = df
         self.data = data
+        self.sample_name = filename
         self.depth_set_mapped, self.depth_set_pos = set(), set()
         self.analyzed_regions = set()
-        self.text = 'Region\tSoft Clip\n'
+        self.text = ''
 
     def _get_depth_mapped(self):
         """Obtém apenas as regiões de softclip com profundidade maior ou igual a 10"""
@@ -50,16 +51,21 @@ class DelSearch:
     def _match_check(self, mapped, first_soft_2, mapped_2, fmap_left, pos_right, last_soft):
         if last_soft in mapped_2 or first_soft_2 in mapped:
             if fmap_left not in self.analyzed_regions:
-                prompt = f'{fmap_left}>{pos_right}\t{last_soft}\n'
+                prompt = f'{self.sample_name}\t{fmap_left}>{pos_right}\t{last_soft}\n'
                 self.text += prompt
                 self.analyzed_regions.add(fmap_left)
 
-    def _create_log(self):
-        """Cria o arquivo final"""
-        if len(self.text) <= 17:
-            self.text += '----Não foram encontradas deleções extras----'
+    def create_log(header):
         with open('src/output/log.txt', 'w') as f:
-            f.write(self.text)
+            f.write(header)
+
+    def _append_log_results(self):
+        """Cria o arquivo final"""
+        if self.text == '':
+            self.text = f'{self.sample_name}\t----No extra deletions were found----'
+
+        with open('src/output/log.txt', 'a') as f:
+            f.write(f'{self.text}\n')
 
     def run_analysis(self):
         """Roda o processo inteiro"""
@@ -75,4 +81,4 @@ class DelSearch:
                 if read['fpos'] == depth_soft:
                     self._analyze_reads(read, last_soft, mapped, count)
             count += 1
-        self._create_log()
+        self._append_log_results()

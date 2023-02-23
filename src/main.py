@@ -1,18 +1,24 @@
 from process_data import create_data
 from del_search import DelSearch
+import os
 import time
 
 if __name__ == '__main__':
     start = time.time()
-    print('Loading Files...')
+    print('Loading Files...\n')
+    header_log = 'Sample\tRegion\tSoft Clip\n'
 
-    # arquivo de entrada:
-    file = "L144-247-232149084-NP.sorted.bam"
-    # file = "aln.virus.sorted_NC_045512.2.bam"
-    df, data = create_data(file)
+    # Input files:
+    files_list = list(filter(lambda s: '.bam' in s, os.listdir('src/input')))
+    files_len = len(files_list)
+    DelSearch.create_log(header_log)
 
-    run_del = DelSearch(df, data)
-    print('\nSearching for deletions...')
+    for (index, file) in enumerate(files_list):
+        print(f'Searching deletions [{index+1}/{files_len}]')
+        df, data, filename = create_data(file)
 
-    run_del.run_analysis()
-    print(f"---{(time.time() - start)} seconds ---")
+        run_del = DelSearch(df, data, filename)
+        run_del.run_analysis()
+    
+    print(f"--- analysis ended in {(time.time() - start):.2f} seconds ---")
+    print("You can access the log results on src/output/log.txt")
