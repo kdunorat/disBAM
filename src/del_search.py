@@ -3,7 +3,7 @@ from process_data import get_soft_seq
 
 class DelSearch:
     """Procura prováveis deleções a partir de regiões vizinhas que sofreram softclip"""
-    def __init__(self, df, data, filename):
+    def __init__(self, df, data: list, filename: str):
         self.df = df
         self.data = data
         self.sample_name = filename
@@ -56,7 +56,7 @@ class DelSearch:
                 self.analyzed_regions.add(fmap_left)
 
     @staticmethod
-    def create_log(header, absolute_path):
+    def create_log(header, absolute_path: str):
         with open(f'{absolute_path}/output/log.txt', 'w') as f:
             f.write(header)
 
@@ -68,7 +68,7 @@ class DelSearch:
         with open(f'{absolute_path}/output/log.txt', 'a') as f:
             f.write(f'{self.text}\n')
 
-    def run_analysis(self, absolute_path):
+    def run_analysis(self, absolute_path: str):
         """Roda o processo inteiro"""
         count = 1
         self._get_depth_mapped()
