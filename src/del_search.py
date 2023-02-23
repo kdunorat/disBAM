@@ -55,19 +55,20 @@ class DelSearch:
                 self.text += prompt
                 self.analyzed_regions.add(fmap_left)
 
-    def create_log(header):
-        with open('src/output/log.txt', 'w') as f:
+    @staticmethod
+    def create_log(header, absolute_path):
+        with open(f'{absolute_path}/output/log.txt', 'w') as f:
             f.write(header)
 
-    def _append_log_results(self):
+    def _append_log_results(self, absolute_path):
         """Cria o arquivo final"""
         if self.text == '':
             self.text = f'{self.sample_name}\t----No extra deletions were found----'
 
-        with open('src/output/log.txt', 'a') as f:
+        with open(f'{absolute_path}/output/log.txt', 'a') as f:
             f.write(f'{self.text}\n')
 
-    def run_analysis(self):
+    def run_analysis(self, absolute_path):
         """Roda o processo inteiro"""
         count = 1
         self._get_depth_mapped()
@@ -81,4 +82,4 @@ class DelSearch:
                 if read['fpos'] == depth_soft:
                     self._analyze_reads(read, last_soft, mapped, count)
             count += 1
-        self._append_log_results()
+        self._append_log_results(absolute_path)

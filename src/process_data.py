@@ -1,19 +1,19 @@
 import subprocess
 import pandas as pd
-import os
 import re
+import os
 import sys
 
 
-def create_data(filename: str):
+def create_data(filename: str, absolute_path: str):
     """Cria um dataframe pandas a partir de um arquivo sam"""
-    check = input_check(filename)
+    check = input_check(filename, absolute_path)
     if not check:
         raise WrongOrMissingInput(f"The file {filename} either could not "
                                   f"been found in input folder"
                                   f" or it's in the wrong format")
-    soft_sam(filename)
-    path = 'src/input/soft_cliped.sam'
+    soft_sam(filename, absolute_path)
+    path = f'{absolute_path}/input/soft_cliped.sam'
 
     with open(path, 'r') as f:
         lines = f.readlines()
@@ -30,13 +30,13 @@ def create_data(filename: str):
         data.append(row)
 
     df = pd.DataFrame(data)
-    os.remove("src/input/soft_cliped.sam")
+    os.remove(f"{absolute_path}/input/soft_cliped.sam")
     return df, data, filename.replace('.bam', '')
 
 
-def input_check(filename):
+def input_check(filename, absolute_path):
     """Valida o input"""
-    path = f'{os.getcwd()}/src/input/{filename}'
+    path = f'{absolute_path}/input/{filename}'
     exist = os.path.exists(path)
     if exist and filename.endswith('.bam'):
         return True
@@ -44,10 +44,11 @@ def input_check(filename):
         return False
 
 
-def soft_sam(filename):
+def soft_sam(filename, absolute_path):
     """Cria o arquivo soft_cliped.sam que possui apenas reads com softclip"""
     file = filename
-    subprocess.call(['bash', 'src/input/parse.sh', file])
+    path = absolute_path
+    subprocess.call(['bash', f'{absolute_path}/input/parse.sh', file, path])
 
 
 def get_fmap(cigar, pos):
