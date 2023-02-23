@@ -2,6 +2,7 @@ import subprocess
 import pandas as pd
 import os
 import re
+import sys
 
 
 def create_data(filename):
@@ -12,7 +13,7 @@ def create_data(filename):
                                   f"been found in input folder"
                                   f" or it's in the wrong format")
     soft_sam(filename)
-    path = 'input/soft_cliped.sam'
+    path = 'src/input/soft_cliped.sam'
 
     with open(path, 'r') as f:
         lines = f.readlines()
@@ -29,13 +30,13 @@ def create_data(filename):
         data.append(row)
 
     df = pd.DataFrame(data)
-    os.remove("input/soft_cliped.sam")
+    os.remove("src/input/soft_cliped.sam")
     return df, data
 
 
 def input_check(filename):
     """Valida o input"""
-    path = f'{os.getcwd()}/input/{filename}'
+    path = f'{os.getcwd()}/src/input/{filename}'
     exist = os.path.exists(path)
     if exist and filename.endswith('.bam'):
         return True
@@ -46,7 +47,7 @@ def input_check(filename):
 def soft_sam(filename):
     """Cria o arquivo soft_cliped.sam que possui apenas reads com softclip"""
     file = filename
-    subprocess.call(['bash', 'input/parse.sh', file])
+    subprocess.call(['bash', 'src/input/parse.sh', file])
 
 
 def get_fmap(cigar, pos):
