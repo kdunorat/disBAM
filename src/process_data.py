@@ -31,7 +31,7 @@ def create_data(filename: str):
 
     df = pd.DataFrame(data)
     os.remove("src/input/soft_cliped.sam")
-    return df, data, filename.split('.')[0]
+    return df, data, filename.replace('.bam', '')
 
 
 def input_check(filename):

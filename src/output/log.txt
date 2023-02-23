@@ -1,4 +1,5 @@
 Sample	Region	Soft Clip
-L144-247-232149084-NP	----No extra deletions were found----
-009-232027169_S13_L001	----No extra deletions were found----
-ART2	----No extra deletions were found----
+L144-247-232149084-NP.sorted	----No extra deletions were found----
+009-232027169_S13_L001.sorted	----No extra deletions were found----
+aln.virus.sorted_NC_045512.2	27508>27750	CAGAATGATTGAACTTTCATTAATTGACTTCTATTTGTGCTTTTTAGCCTTTCTGTTATTC
+ART2.sorted	----No extra deletions were found----
