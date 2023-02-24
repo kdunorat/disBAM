@@ -25,11 +25,15 @@ class DelSearch:
             self.depth_set_pos.add(key)
 
     def _get_depth_soft(self, fmap):
+        elected_fpos = 0
         new = self.df[self.df['fmap'].isin([fmap])]
         depth_soft = new['fpos'].value_counts()
         depth_soft = depth_soft.keys()
-        depth_soft = depth_soft[0]
-        return depth_soft
+        for fpos in depth_soft:
+            if fpos - fmap > 50:
+                elected_fpos = fpos
+                break
+        return elected_fpos
 
     def _analyze_reads(self, read, last_soft, mapped, count):
         """Analiza par a par em busca de provaveis deleções"""
@@ -49,11 +53,18 @@ class DelSearch:
                                       fmap_left, pos_right, last_soft)
 
     def _match_check(self, mapped, first_soft_2, mapped_2, fmap_left, pos_right, last_soft):
-        if last_soft in mapped_2 or first_soft_2 in mapped:
+        if last_soft in mapped_2:
             if fmap_left not in self.analyzed_regions:
                 soft_size = len(last_soft)
                 final_pos = pos_right - 1
-                prompt = f'{self.sample_name}\t{fmap_left}>{final_pos}\t{last_soft}\t{soft_size}'
+                prompt = f'{self.sample_name}\t{fmap_left}>{final_pos}\t{last_soft}\t{soft_size}\n'
+                self.text += prompt
+                self.analyzed_regions.add(fmap_left)
+        elif first_soft_2 in mapped:
+            if fmap_left not in self.analyzed_regions:
+                soft_size = len(first_soft_2)
+                final_pos = pos_right
+                prompt = f'{self.sample_name}\t{fmap_left}>{final_pos}\t{first_soft_2}\t{soft_size}'
                 self.text += prompt
                 self.analyzed_regions.add(fmap_left)
 
@@ -80,8 +91,8 @@ class DelSearch:
                 continue
             _, last_soft, mapped = get_soft_seq(read['cigar'], read['seq'])
             if last_soft and len(last_soft) > 50:
-                depth_soft = self._get_depth_soft(read['fmap'])
-                if read['fpos'] == depth_soft:
+                elected_fpos = self._get_depth_soft(read['fmap'])
+                if read['fpos'] == elected_fpos:
                     self._analyze_reads(read, last_soft, mapped, count)
             count += 1
         self._append_log_results(absolute_path)
