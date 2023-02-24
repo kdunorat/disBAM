@@ -1,7 +1,9 @@
 #!/bin/bash
 
-samtools view -h -F 4 $2/input/$1 | awk '(index($6, "S") != 0) || $1 ~ /@/ {print}' | samtools view -bS - > $2/input/soft_cliped.bam
+path=$(pwd)
 
-samtools view -o $2/input/soft_cliped.sam $2/input/soft_cliped.bam
+samtools view -h -F 4 $path/input/$1 | awk '(index($6, "S") != 0) || $1 ~ /@/ {print}' | samtools view -bS - > $path/input/soft_cliped.bam
 
-rm $2/input/soft_cliped.bam
+samtools view -o $path/input/soft_cliped.sam $path/input/soft_cliped.bam
+
+rm $path/input/soft_cliped.bam

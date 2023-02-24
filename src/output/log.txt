@@ -1,1 +1,2 @@
 Sample	Region	Soft Clip	Size
+L144-247-232149084-NP.sorted	----No extra deletions were found----

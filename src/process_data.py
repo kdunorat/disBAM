@@ -46,8 +46,7 @@ def input_check(filename, absolute_path):
 def soft_sam(filename, absolute_path):
     """Cria o arquivo soft_cliped.sam que possui apenas reads com softclip"""
     file = filename
-    path = absolute_path
-    subprocess.call(['bash', f'{absolute_path}/input/parse.sh', file, path])
+    subprocess.call(['bash', f'{absolute_path}/input/parse.sh', file])
 
 
 def get_fmap(cigar, pos):
