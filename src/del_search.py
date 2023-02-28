@@ -57,14 +57,16 @@ class DelSearch:
             if fmap_left not in self.analyzed_regions:
                 soft_size = len(last_soft)
                 final_pos = pos_right - 1
-                prompt = f'{self.sample_name}\t{fmap_left}>{final_pos}\t{last_soft}\t{soft_size}\n'
+                region_size = final_pos - fmap_left
+                prompt = f'{self.sample_name}\t{fmap_left}>{final_pos}\t{last_soft}\t{soft_size}\t{region_size}\n'
                 self.text += prompt
                 self.analyzed_regions.add(fmap_left)
         elif first_soft_2 in mapped:
             if fmap_left not in self.analyzed_regions:
                 soft_size = len(first_soft_2)
                 final_pos = pos_right
-                prompt = f'{self.sample_name}\t{fmap_left}>{final_pos}\t{first_soft_2}\t{soft_size}'
+                region_size = final_pos - fmap_left
+                prompt = f'{self.sample_name}\t{fmap_left}>{final_pos}\t{first_soft_2}\t{soft_size}\t{region_size}'
                 self.text += prompt
                 self.analyzed_regions.add(fmap_left)
 
