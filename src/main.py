@@ -30,7 +30,7 @@ if __name__ == '__main__':
         # 2° feature
         print(f'Analyzing depth [{index + 1}/{files_len}]')
         run_depth = DepthAnalyzer(df_depth, filename)
-        text = run_depth.run_depth_analysis()
+        text = run_depth.run_depth_analysis(7000, 400)
         log.create_log(text, 'a')
 
     print(f"--- analysis ended in {(time.time() - start):.2f} seconds ---")
