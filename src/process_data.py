@@ -5,6 +5,7 @@ import os
 
 
 class InputHandler:
+    """Processa os inputs necessários ao funcionamento do programa"""
     def __init__(self, file, absolute_path):
         self.filename = file
         self.absolute_path = absolute_path
@@ -99,6 +100,7 @@ class InputHandler:
 
 
 class OutputHandler:
+    """Gera o arquivo de log. Processará futuros outputs"""
     def __init__(self, absolute_path):
         self.absolute_path = absolute_path
 

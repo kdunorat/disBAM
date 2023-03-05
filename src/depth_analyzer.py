@@ -5,6 +5,7 @@ from math import floor
 
 
 class DepthAnalyzer:
+    """Análises da profundidade do sequenciamento"""
     def __init__(self, df_depth, filename):
         self.df_depth = df_depth
         self.filename = filename

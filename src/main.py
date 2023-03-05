@@ -21,10 +21,13 @@ if __name__ == '__main__':
         input_data = InputHandler(file, absolute_path)
         df, data, filename, df_depth = input_data.create_data()
 
+        # 1° feature
         print(f'Searching deletions [{index+1}/{files_len}]')
         run_del = DelSearch(df, data, filename)
         text = run_del.run_del_analysis()
         log.create_log(text, 'a')
+
+        # 2° feature
         print(f'Analyzing depth [{index + 1}/{files_len}]')
         run_depth = DepthAnalyzer(df_depth, filename)
         text = run_depth.run_depth_analysis()
