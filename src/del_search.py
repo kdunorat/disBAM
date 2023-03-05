@@ -1,4 +1,4 @@
-from process_data import get_soft_seq
+from process_data import InputHandler
 
 
 class DelSearch:
@@ -42,7 +42,7 @@ class DelSearch:
             if read_2['pos'] not in self.depth_set_pos:
                 continue
 
-            first_soft_2, _, mapped_2 = get_soft_seq(read_2['cigar'], read_2['seq'])
+            first_soft_2, _, mapped_2 = InputHandler.get_soft_seq(read_2['cigar'], read_2['seq'])
             if first_soft_2 and len(first_soft_2) > 50:
                 fmap_left = read['fmap']
                 pos_right = read_2['pos']
@@ -70,20 +70,14 @@ class DelSearch:
                 self.text += prompt
                 self.analyzed_regions.add(fmap_left)
 
-    @staticmethod
-    def create_log(header, absolute_path: str):
-        with open(f'{absolute_path}/output/log.txt', 'w') as f:
-            f.write(header)
-
-    def _append_log_results(self, absolute_path):
-        """Cria o arquivo final"""
+    def get_final_text(self):
+        """Cria a string final"""
         if self.text == '':
-            self.text = f'{self.sample_name}\t----No extra deletions were found----'
+            return f'{self.sample_name}\t----No extra deletions were found----\t\t\t'
+        else:
+            return f'{self.text}\t'
 
-        with open(f'{absolute_path}/output/log.txt', 'a') as f:
-            f.write(f'{self.text}\n')
-
-    def run_analysis(self, absolute_path: str):
+    def run_del_analysis(self):
         """Roda o processo inteiro"""
         count = 1
         self._get_depth_mapped()
@@ -91,10 +85,11 @@ class DelSearch:
             if read['fmap'] not in self.depth_set_mapped:
                 count += 1
                 continue
-            _, last_soft, mapped = get_soft_seq(read['cigar'], read['seq'])
+            _, last_soft, mapped = InputHandler.get_soft_seq(read['cigar'], read['seq'])
             if last_soft and len(last_soft) > 50:
                 elected_fpos = self._get_depth_soft(read['fmap'])
                 if read['fpos'] == elected_fpos:
                     self._analyze_reads(read, last_soft, mapped, count)
             count += 1
-        self._append_log_results(absolute_path)
+
+        return self.get_final_text()
