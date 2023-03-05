@@ -6,4 +6,6 @@ samtools view -h -F 4 $path/input/$1 | awk '(index($6, "S") != 0) || $1 ~ /@/ {p
 
 samtools view -o $path/input/soft_cliped.sam $path/input/soft_cliped.bam
 
+samtools depth $path/input/$1 > $path/input/depth.csv
+
 rm $path/input/soft_cliped.bam

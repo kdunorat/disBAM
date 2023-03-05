@@ -29,8 +29,11 @@ def create_data(filename: str, absolute_path: str):
         data.append(row)
 
     df = pd.DataFrame(data)
+    df_depth = pd.read_csv(f"{absolute_path}/input/depth.csv",
+                           sep="\t", names=['read', 'position', 'depth'])
     os.remove(f"{absolute_path}/input/soft_cliped.sam")
-    return df, data, filename.replace('.bam', '')
+    os.remove(f"{absolute_path}/input/depth.csv")
+    return df, data, filename.replace('.bam', ''), df_depth
 
 
 def input_check(filename, absolute_path):
@@ -64,7 +67,7 @@ def get_fmap(cigar, pos):
 
 def get_fpos(cigar, pos, seq):
     first_soft, _, _ = get_soft_seq(cigar, seq)
-    if first_soft:
+    if type(first_soft) == str:
         new_len = len(seq) - len(first_soft)
         fpos = new_len + pos
         return fpos

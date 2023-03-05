@@ -1,5 +1,6 @@
 from process_data import create_data
 from del_search import DelSearch
+from depth_analyzer import DepthAnalyzer
 import os
 import time
 
@@ -15,11 +16,15 @@ if __name__ == '__main__':
     DelSearch.create_log(header_log, absolute_path)
 
     for (index, file) in enumerate(files_list):
-        print(f'Searching deletions [{index+1}/{files_len}]')
-        df, data, filename = create_data(file, absolute_path)
+        print(f'Loading Data [{index + 1}/{files_len}]')
+        df, data, filename, df_depth = create_data(file, absolute_path)
 
+        print(f'Searching deletions [{index+1}/{files_len}]')
         run_del = DelSearch(df, data, filename)
         run_del.run_analysis(absolute_path)
-    
+        print(f'Analyzing depth [{index + 1}/{files_len}]')
+        run_depth = DepthAnalyzer(df_depth)
+        run_depth.generate_graph(filename)
+
     print(f"--- analysis ended in {(time.time() - start):.2f} seconds ---")
     print("You can access the log results on src/output/log.txt")
