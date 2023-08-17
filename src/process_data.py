@@ -53,7 +53,7 @@ class InputHandler:
     def _soft_sam(self):
         """Cria o arquivo soft_cliped.sam que possui apenas reads com softclip"""
         file = self.filename
-        subprocess.call(['bash', f'{self.absolute_path}/input/parse.sh', file])
+        subprocess.call(['bash', f'{self.absolute_path}/sh_scripts/parse.sh', file])
 
     @staticmethod
     def _get_fmap(cigar, pos):
