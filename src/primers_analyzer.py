@@ -25,7 +25,9 @@ class PrimersAnalyzer:
                 elif line.startswith("FPCOV"):
                     self.fpcov = self._process_line(line)
                 elif line.startswith("FAMP"):
-                    self.famp.append(self._process_line(line))
+                    line_list = self._process_line(line)
+                    line_list = [int(n) for n in line_list]
+                    self.famp.append(line_list)
             self.famp.pop(0)
 
     @staticmethod
